@@ -62,3 +62,53 @@ class RPCServer:
         converted_params.append(param)
 
     return converted_params.append(param)
+  
+  def _process_request(self, request_data: str) -> str:
+    """This is like reading a note and doing what it asks"""
+    try:
+      request = json.loads(request_data)
+      # Extract info from the request
+      method = request.get("method")
+      params = request.get("params", [])
+      param_types = request.get("param_types", [])
+      request_id = request.get("id", None)
+      
+      # Check if we know this function
+      if method not in self.methods:
+        raise ValueError(f"Unknown method: {method}")
+      
+      # Convert params to right types
+      validated_params = self._valid_params(method, params, param_types)
+
+      # Call the function
+      result = self.methods[method](*validated_params)
+
+      # Figure out what type the result is
+      if isinstance(result, int):
+        result_type = "int"
+      elif isinstance(result, float):
+        result_type = "float"
+      elif isinstance(result, str):
+        result_type = "str"
+      elif isinstance(result, list):
+        result_type = "list"
+      elif isinstance(result, bool):
+        result_type = "bool"
+      else:
+        result_type = "unknown"
+      
+      # Send back the answer
+      response = {
+        "results": result,
+        "result_type": result_type,
+        "id": request_id
+      }
+
+    except Exception as e:
+      # If something went wrong, send back an error
+      response = {
+        "error": str(e),
+        "id": request.get("id") if 'request' in locals() else None
+      }
+
+    return json.dumps(response)
