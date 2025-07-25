@@ -112,3 +112,57 @@ class RPCServer:
       }
 
     return json.dumps(response)
+  
+  def start_server(self):
+    """Start Listening for requests"""
+    # Remove old socket file it it exists
+    if os.path.exists(self.socket_path):
+      os.unlink(self.socket_path)
+    
+    # Create a socket like opening a door
+    self.socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    self.socket.bind(self.socket_path)
+    self.socket.listen(1)
+
+    print(f"🚀 RPC server started! Listening on {self.socket_path}")
+    print(f"Available methods: floor, nroot, reverse, valid_anagram, sort")
+    print("Press Ctrl + C to stop")
+
+    try:
+      while True:
+        # Wait for someone to knock on the door
+        connection, client_address = self.socket.accept()
+        print(f"📞 Client address: {client_address} \n🔌Socket: {connection}!")
+        
+        try:
+          # Read the message
+          data = connection.recv(4096).decode('utf-8')
+          if data:
+            print(f"📥 Received message: {data}")
+
+            # Process the message and respond
+            response = self._process_request(data)
+            connection.send(response.encode('utf-8'))
+            print(f"📫 Sent response: {response}")
+        except Exception as e:
+          print(f"❌ Error occurred: {e}")
+
+        finally:
+          connection.close()
+          print(f"👋 Client disconnected")
+    except KeyboardInterrupt:
+      print("\\n📴 Server stopping...")
+    
+    finally:
+      if self.socket:
+        self.socket.close()
+      if os.path.exists(self.socket_path):
+        os.unlink(self.socket_path)
+    
+def main():
+  server = RPCServer()
+  server.start_server
+
+if __name__ == "__main__":
+  main()
+
