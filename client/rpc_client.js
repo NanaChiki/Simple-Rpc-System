@@ -35,7 +35,98 @@ class RPCClient {
         client.write(JSON.stringify(request));
       });
 
+      client.on('data', (data) => {
+        console.log(`📥 Received: ${data.toString()}`);
+        
+        try {
+          const response = JSON.parse(data);
 
+          // Check if there was an error
+          if (response.error) {
+            reject(new Error(response.error));
+          } else {
+            resolve(response.results);
+          }
+        } catch {
+          reject(new Error(`Failed to parse response: ${error.message}`));
+        }
+
+        client.end();
+      });
+
+      client.on('error', (error) => {
+        console.error(`❌ Connection error: ${error.message}`);
+        reject(error);
+      });
+
+      client.on('close', (close) => {
+        console.log('👋 Connection closed');
+      });
     });
   }
+
+  /**
+   * Helper methods for each RPC function - makes it easier to use
+   */
+  async floor(x) {
+    return await this.callMethod('floor', [x], ['float']);
+  }
+
+  async nroot(x, n) {
+    return await this.callMethod('nroot', [x, n], ['int', 'int']);
+  }
+
+  async reverse(s) {
+    return await this.callMethod('reverse', [s], ['str']);
+  }
+
+  async validAnagram(s1, s2) {
+    return await this.callMethod('validAnagram', [s1, s2], ['str', 'str']);
+  }
+
+  async sort(strArr) {
+    return await this.callMethod('sort', [strArr], ['list']);
+  }
+}
+
+module.exports = RPCClient;
+
+// If this file run directly, show some examples
+if (require.main === module) {
+  async function runExamples() {
+    const client = new RPCClient();
+
+    console.log('🧪 Testing RPC Client...\\n');
+
+    try {
+      // Test floor
+      console.log('1️⃣ Testing floor(3.7):')
+      const floorResult = await client.floor(3.7);
+      console.log(`  Result: ${floorResult}\\n`);
+
+      // Test reverse
+      console.log('2️⃣ Testing reverse("hello"):')
+      const reverseResult = await client.reverse("hello");
+      console.log(`  Result: ${reverseResult}\\n`);
+
+      // Test sort
+      console.log('3️⃣ Testing sort(["banana", "apple", "cherry"])');
+      const sortResult = await client.sort(["banana", "apple", "cherry"]);
+      console.log(`  Result: ${sortResult}\\n`);
+
+      // Test valid anagram
+      console.log('4️⃣ Testing validAnagram("listen", "silent")');
+      const anagramResult = await client.validAnagram("listen", "silent");
+      console.log(`  Result: ${anagramResult}\\n`);
+
+      // Test nroot
+      console.log('5️⃣ Testing nroot(2, 9) (square root of 9):');
+      const nrootResult = await client.nroot(2, 9);
+      console.log(`  Result: ${nrootResult}\\n`);
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+    }
+  }
+
+  runExamples();
 }
