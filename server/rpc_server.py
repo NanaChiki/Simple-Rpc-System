@@ -70,7 +70,7 @@ class RPCServer:
       # Extract info from the request
       method = request.get("method")
       params = request.get("params", [])
-      param_types = request.get("param_types", [])
+      param_types = request.get("param_Types", [])
       request_id = request.get("id", None)
       
       # Check if we know this function
