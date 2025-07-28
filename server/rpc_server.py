@@ -13,7 +13,7 @@ class RPCServer:
       "floor": self._floor,
       "nroot": self._nroot,
       "reverse": self._reverse,
-      "validAnagram": self._validAnagram,
+      "validAnagram": self._valid_anagram,
       "sort": self._sort
     }
 
@@ -161,7 +161,7 @@ class RPCServer:
     
 def main():
   server = RPCServer()
-  server.start_server
+  server.start_server()
 
 if __name__ == "__main__":
   main()

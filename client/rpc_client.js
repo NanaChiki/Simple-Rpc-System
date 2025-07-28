@@ -96,7 +96,7 @@ if (require.main === module) {
   async function runExamples() {
     const client = new RPCClient();
 
-    console.log('🧪 Testing RPC Client...\\n');
+    console.log('🧪 Testing RPC Client...\n');
 
     try {
       // Test floor
