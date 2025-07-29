@@ -55,14 +55,7 @@ async function comprehensiveTest() {
   for (const test of tests) {
     try {
       console.log(`🔍Testing: ${test.name}`);
-      try {
-        console.log('start');
-        const result = await test.test();
-        console.log(result);
-      } catch (e) {
-        console.error("error:", e);
-      }
-      // const result = await test.test();
+      const result = await test.test();
 
       const success = JSON.stringify(result) === JSON.stringify(test.expected);
       if (success) {
