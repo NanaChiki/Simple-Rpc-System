@@ -131,8 +131,8 @@ class RPCServer:
     try:
       while True:
         # Wait for someone to knock on the door
-        connection, client_address = self.socket.accept()
-        print(f"📞 Client address: {client_address} \n🔌Socket: {connection}!")
+        connection, _ = self.socket.accept()
+        print(f"📞 Client connected!")
         
         try:
           # Read the message
@@ -151,7 +151,7 @@ class RPCServer:
           connection.close()
           print(f"👋 Client disconnected")
     except KeyboardInterrupt:
-      print("\\n📴 Server stopping...")
+      print("\n📴 Server stopping...")
     
     finally:
       if self.socket:
