@@ -61,7 +61,7 @@ class RPCServer:
       else:
         converted_params.append(param)
 
-    return converted_params.append(param)
+    return converted_params
   
   def _process_request(self, request_data: str) -> str:
     """This is like reading a note and doing what it asks"""
