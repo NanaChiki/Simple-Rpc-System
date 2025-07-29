@@ -3,7 +3,7 @@ const { rejects } = require('assert');
 const net = require('net');
 
 class RPCClient {
-  constructor(socketPath = 'tmp/spc_socket') {
+  constructor(socketPath = "/tmp/rpc_socket") {
     this.socketPath = socketPath;
     this.requestId = 0; // Counter for unique IDs
   }
@@ -15,7 +15,7 @@ class RPCClient {
     return new Promise((resolve, reject) => {
       // Create unique ID for this request
       const id = ++this.requestId;
-
+      
       // Create the request message
       const request = {
         method: method,
@@ -23,11 +23,11 @@ class RPCClient {
         param_Types: paramTypes,
         id: id
       }
-
+      
       // Connect to the server (Knock on the door)
       const client = net.createConnection(this.socketPath);
 
-      client.on('client', () => {
+      client.on('connect', () => {
         console.log(`📞 Connected to server (${this.socketPath})`);
         console.log(`📤 Sending: ${JSON.stringify(request)}`);
 
@@ -47,7 +47,7 @@ class RPCClient {
           } else {
             resolve(response.results);
           }
-        } catch {
+        } catch (error) {
           reject(new Error(`Failed to parse response: ${error.message}`));
         }
 
@@ -59,7 +59,7 @@ class RPCClient {
         reject(error);
       });
 
-      client.on('close', (close) => {
+      client.on('close', () => {
         console.log('👋 Connection closed');
       });
     });
@@ -122,7 +122,7 @@ if (require.main === module) {
       // Test nroot
       console.log('5️⃣ Testing nroot(2, 9) (square root of 9):');
       const nrootResult = await client.nroot(2, 9);
-      console.log(`  Result: ${nrootResult}\\n`);
+      console.log(`  Result: ${nrootResult}\n`);
     } catch (error) {
       console.error(`❌ Error: ${error.message}`);
     }
