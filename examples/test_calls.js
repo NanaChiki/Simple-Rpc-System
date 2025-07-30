@@ -12,41 +12,41 @@ async function comprehensiveTest() {
       test: () => client.floor(3.9),
       expected: 3
     },
-    // {
-    //   name: 'Floor with negative',
-    //   test: () => client.floor(-2.7),
-    //   expected: -3
-    // },
-    // {
-    //   name: 'Square root (nroot)',
-    //   test: () => client.nroot(2, 16),
-    //   expected: 4
-    // },
-    // {
-    //   name: 'Cube root (nroot)',
-    //   test: () => client.nroot(3, 27),
-    //   expected: 3
-    // },
-    // {
-    //   name: 'Reverse string',
-    //   test: () => client.reverse('JavaScript'),
-    //   expected: 'tpircSavaJ'
-    // },
-    // {
-    //   name: 'Valid anagram(true)',
-    //   test: () => client.validAnagram('listen', 'silent'),
-    //   expected: true
-    // },
-    // {
-    //   name: 'Valid anagram (false)',
-    //   test: () => client.validAnagram('hello', 'world'),
-    //   expected: false
-    // },
-    // {
-    //   name: 'Sort strings',
-    //   test: () => client.sort(['zebra','apple','banana']),
-    //   expected: ['apple','banana','zebra']
-    // }
+    {
+      name: 'Floor with negative',
+      test: () => client.floor(-2.7),
+      expected: -3
+    },
+    {
+      name: 'Square root (nroot)',
+      test: () => client.nroot(16, 2),
+      expected: 4
+    },
+    {
+      name: 'Cube root (nroot)',
+      test: () => client.nroot(27, 3),
+      expected: 3
+    },
+    {
+      name: 'Reverse string',
+      test: () => client.reverse('JavaScript'),
+      expected: 'tpircSavaJ'
+    },
+    {
+      name: 'Valid anagram(true)',
+      test: () => client.validAnagram('listen', 'silent'),
+      expected: true
+    },
+    {
+      name: 'Valid anagram (false)',
+      test: () => client.validAnagram('hello', 'world'),
+      expected: false
+    },
+    {
+      name: 'Sort strings',
+      test: () => client.sort(['zebra','apple','banana']),
+      expected: ['apple','banana','zebra']
+    }
   ];
 
   let passed = 0;
