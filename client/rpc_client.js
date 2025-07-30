@@ -102,22 +102,22 @@ if (require.main === module) {
       // Test floor
       console.log('1️⃣ Testing floor(3.7):')
       const floorResult = await client.floor(3.7);
-      console.log(`  Result: ${floorResult}\\n`);
+      console.log(`  Result: ${floorResult}\n`);
 
       // Test reverse
       console.log('2️⃣ Testing reverse("hello"):')
       const reverseResult = await client.reverse("hello");
-      console.log(`  Result: ${reverseResult}\\n`);
+      console.log(`  Result: ${reverseResult}\n`);
 
       // Test sort
       console.log('3️⃣ Testing sort(["banana", "apple", "cherry"])');
       const sortResult = await client.sort(["banana", "apple", "cherry"]);
-      console.log(`  Result: ${sortResult}\\n`);
+      console.log(`  Result: ${sortResult}\n`);
 
       // Test valid anagram
       console.log('4️⃣ Testing validAnagram("listen", "silent")');
       const anagramResult = await client.validAnagram("listen", "silent");
-      console.log(`  Result: ${anagramResult}\\n`);
+      console.log(`  Result: ${anagramResult}\n`);
 
       // Test nroot
       console.log('5️⃣ Testing nroot(2, 9) (square root of 9):');
